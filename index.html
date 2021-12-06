@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>node_lab_14</title>
+</head>
+<body>
+    <p id='response'></p>
+    <hr>
+
+    <form onsubmit="get_p(); return false">
+        <input  type="submit" value="get pulpit">
+    </form>
+    <hr>
+
+    <form id="get_p_by_pulpit_form" onsubmit="get_p_by_pulpit(); return false">
+        <input name="p_pulpit" type="text">
+        <input  type="submit" value="get pulpit by id">
+    </form>
+    <hr>
+
+    <form id="post_form" onsubmit="post_p(); return false" >
+        <input name="post_json" type="text">
+        <input type="submit" value="post pulpit">
+    </form>
+
+    <form id='put_form' onsubmit="put_p(); return false">
+        <input name="put_json" type="text">
+        <input type="submit" value="update pulpit">
+    </form>
+
+    <form id="delete_form" onsubmit="delete_p(); return false">
+        <input name="delete_f" type="text">
+        <input type="submit" value="delete pulpit">
+    </form>
+</body>
+<script>
+    function get_p() {
+        fetch('http://localhost:3000/api/pulpits', { 
+                method: 'GET', 
+            })
+            .then(response => response.json())
+            .then( json => {
+                let el = document.getElementById('response')
+                el.innerHTML = JSON.stringify(json)
+            })
+    }
+
+    function get_p_by_pulpit() {
+        let form = new FormData(document.getElementById('get_p_by_pulpit_form'))
+        fetch(`http://localhost:3000/api/pulpits?pulpit=${form.get('p_pulpit')}`, { 
+                method: 'GET', 
+            })
+            .then(response => response.json())
+            .then( json => {
+                let el = document.getElementById('response')
+                el.innerHTML = JSON.stringify(json)
+            })
+    }
+
+    function post_p() {        
+        let form = new FormData(document.getElementById('post_form'))        
+        fetch('http://localhost:3000/api/pulpits', { 
+                method: 'POST',
+                body: form.get('post_json')
+            })
+            .then(response => response.text())
+            .then(text => {
+                let el = document.getElementById('response')
+                el.innerHTML = text
+            })
+    }
+
+    function put_p() {        
+        let form = new FormData(document.getElementById('put_form'))        
+        fetch('http://localhost:3000/api/pulpits', { 
+                method: 'PUT',
+                body: form.get('put_json')
+            })
+            .then(response => response.text())
+            .then(text => {
+                let el = document.getElementById('response')
+                el.innerHTML = text
+            })
+    }
+
+    function delete_p() {        
+        let form = new FormData(document.getElementById('delete_form')) 
+        console.log(`http://localhost:3000/api/pulpits/${form.get('delete_f')}`);       
+        fetch(`http://localhost:3000/api/pulpits/${form.get('delete_f')}`, { 
+                method: 'DELETE',
+            })
+            .then(response => response.text())
+            .then(text => {
+                let el = document.getElementById('response')
+                el.innerHTML = text
+            })
+    }
+</script>
+</html>

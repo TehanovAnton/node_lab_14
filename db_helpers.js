@@ -242,8 +242,108 @@ let db_update_auditotium = (sql_query, params, clbck) => {
     })
 }
 
+let db_delete_faculties = (sql_query, params, clbck) => {
+    sql.connect(db_config, err => {
+        if (err) {
+            console.log(err.code)
+        } 
+        else {
+            const ps = new sql.PreparedStatement()
+            ps.input('f', sql.VarChar(50))
+            ps.prepare(sql_query, err => {
+                if (err) {
+                    console.log(err)
+                }
+                else {                    
+                    ps.execute({ f: params.faculty }, (err, result) => { clbck(err, result) } )
+                }
+            })
+        }
+    })
+}
+
+let db_delete_pulpits = (sql_query, params, clbck) => {
+    sql.connect(db_config, err => {
+        if (err) {
+            console.log(err.code)
+        } 
+        else {
+            const ps = new sql.PreparedStatement()
+            ps.input('p', sql.VarChar(100))            
+            ps.prepare(sql_query, err => {
+                if (err) {
+                    console.log(err)
+                }
+                else {                    
+                    ps.execute({ p: params.pulpit }, (err, result) => { clbck(err, result) } )
+                }
+            })
+        }
+    })
+}
+
+let db_delete_subjects = (sql_query, params, clbck) => {
+    sql.connect(db_config, err => {
+        if (err) {
+            console.log(err.code)
+        } 
+        else {
+            const ps = new sql.PreparedStatement()
+            ps.input('s', sql.VarChar(50))
+            ps.prepare(sql_query, err => {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    ps.execute({ s: params.subject }, (err, result) => { clbck(err, result) } )
+                }
+            })
+        }
+    })
+}
+
+let db_delete_auditotium_type = (sql_query, params, clbck) => {
+    sql.connect(db_config, err => {
+        if (err) {
+            console.log(err.code)
+        } 
+        else {
+            const ps = new sql.PreparedStatement()                 
+            ps.input('at', sql.VarChar(30))
+            ps.prepare(sql_query, err => {
+                if (err) {
+                    console.log(err)
+                }
+                else {                    
+                    ps.execute({ at: params.auditorium_type }, (err, result) => { clbck(err, result) } )
+                }
+            })
+        }
+    })
+}
+
+let db_delete_auditotium = (sql_query, params, clbck) => {
+    sql.connect(db_config, err => {
+        if (err) {
+            console.log(err.code)
+        } 
+        else {
+            const ps = new sql.PreparedStatement()
+            ps.input('a', sql.VarChar(200))
+            ps.prepare(sql_query, err => {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    ps.execute({ a: params.auditorium }, (err, result) => { clbck(err, result) } )
+                }
+            })
+        }
+    })
+}
 
 module.exports = { db_select,
     db_insert_faculties, db_insert_pulpits, db_insert_subjects, db_insert_auditotium_type, db_insert_auditotium,
-    db_update_faculties, db_update_pulpits, db_update_subjects, db_update_auditotium_type, db_update_auditotium
+    db_update_faculties, db_update_pulpits, db_update_subjects, db_update_auditotium_type, db_update_auditotium,
+    db_delete_faculties, db_delete_pulpits, db_delete_subjects, db_delete_auditotium_type, db_delete_auditotium
 }
